@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Josh Talks AI Image Evaluation</title>
+</head>
+<body>
+
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span class="eyebrow">Josh Talks AI · Image Evaluation</span>
+      <h1>Which one would you post?</h1>
+    </div>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="participant">Rate images</button>
+      <button class="tab-btn" data-tab="admin">Admin</button>
+      <button class="tab-btn" data-tab="results">Results</button>
+    </nav>
+  </header>
+
+  <div id="view-participant" class="view active"></div>
+  <div id="view-admin" class="view"></div>
+  <div id="view-results" class="view"></div>
+</div>
+
+<div id="passcodeModal" class="modal-overlay">
+  <div class="modal-card">
+    <p class="modal-title">Restricted section</p>
+    <p class="modal-sub">Enter the passcode to continue.</p>
+    <input type="password" id="passcodeInput" placeholder="Passcode"/>
+    <p class="field-err" id="passcodeErr"></p>
+    <div class="modal-actions">
+      <button id="passcodeCancel" class="btn-ghost">Cancel</button>
+      <button id="passcodeSubmit" class="btn-primary">Unlock</button>
+    </div>
+  </div>
+</div>
+
+<div id="zoomModal" class="modal-overlay">
+  <div class="zoom-card">
+    <div class="zoom-toolbar">
+      <button id="zoomOutBtn" class="zoom-ctrl" aria-label="Zoom out">−</button>
+      <span id="zoomLevel" class="zoom-level">100%</span>
+      <button id="zoomInBtn" class="zoom-ctrl" aria-label="Zoom in">+</button>
+      <button id="zoomCloseBtn" class="zoom-ctrl zoom-close" aria-label="Close">✕</button>
+    </div>
+    <div class="zoom-viewport">
+      <img id="zoomImg" src="" alt="Zoomed product image"/>
+    </div>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{
+  --ink:#2A1E1E;
+  --maroon:#7C2D3B;
+  --maroon-dark:#5A1F2B;
+  --maroon-soft:#F6E7EA;
+  --gold:#B4863A;
+  --gold-light:#E8CE95;
+  --cream:#FBF7EF;
+  --cream-2:#F2E9D8;
+  --sage:#4B6358;
+  --white:#FFFFFF;
+  --danger:#B3441E;
+  --line:rgba(122,45,59,0.14);
+  --r-lg:18px;
+  --r-md:12px;
+  --r-sm:8px;
+}
+*{box-sizing:border-box;}
+#app{
+  max-width:880px;margin:0 auto;font-family:'Inter',sans-serif;color:var(--ink);
+  background:var(--cream);
+  padding:1.5rem;border-radius:20px;
+}
+.topbar{display:flex;flex-direction:column;gap:14px;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--line);}
+.eyebrow{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);font-weight:600;}
+.brand h1{font-family:'Fraunces',serif;font-weight:600;font-size:28px;margin:4px 0 0;color:var(--maroon-dark);}
+.tabs{display:flex;gap:6px;background:var(--cream-2);padding:4px;border-radius:999px;width:fit-content;}
+.tab-btn{background:transparent;border:none;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:600;color:var(--ink);opacity:0.55;cursor:pointer;font-family:'Inter',sans-serif;transition:all .15s;}
+.tab-btn.active{background:var(--maroon);color:var(--white);opacity:1;}
+.view{display:none;}
+.view.active{display:block;}
+
+/* --- progress rail --- */
+.rail{display:flex;align-items:center;gap:4px;margin-bottom:1.25rem;}
+.rail-dot{width:9px;height:9px;border-radius:50%;background:var(--cream-2);border:1px solid var(--gold-light);flex:none;}
+.rail-dot.done{background:var(--gold);border-color:var(--gold);}
+.rail-dot.current{background:var(--maroon);border-color:var(--maroon);width:12px;height:12px;}
+.rail-line{flex:1;height:1px;background:var(--gold-light);}
+
+.meta-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:14px;flex-wrap:wrap;gap:6px;}
+.meta-count{font-size:12px;color:var(--gold);font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+.meta-title{font-family:'Fraunces',serif;font-size:19px;color:var(--maroon-dark);font-weight:600;}
+.meta-desc{font-size:13px;color:#8a7268;}
+
+/* --- cards --- */
+.card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.1rem;box-shadow:0 1px 3px rgba(122,45,59,0.06);}
+.consent-card{max-width:460px;margin:1rem auto;}
+label.field{display:block;font-size:12px;font-weight:600;color:var(--maroon-dark);margin-bottom:5px;letter-spacing:.02em;}
+input[type=text],input[type=email],input[type=number],input[type=url],input[type=password]{
+  width:100%;margin-bottom:14px;padding:10px 12px;border-radius:var(--r-sm);border:1px solid var(--line);
+  font-family:'Inter',sans-serif;font-size:14px;background:var(--cream);color:var(--ink);
+}
+input:focus{outline:2px solid var(--gold-light);border-color:var(--gold);}
+.consent-text{display:flex;gap:10px;align-items:flex-start;font-size:12.5px;color:#6b5850;line-height:1.5;margin-bottom:16px;background:var(--maroon-soft);padding:10px 12px;border-radius:var(--r-sm);}
+.consent-text input{width:auto;margin:2px 0 0;}
+
+button{font-family:'Inter',sans-serif;cursor:pointer;}
+.btn-primary{width:100%;background:var(--maroon);color:var(--white);border:none;border-radius:999px;padding:12px 20px;font-weight:600;font-size:14px;margin-top:6px;transition:background .15s;}
+.btn-primary:hover{background:var(--maroon-dark);}
+.btn-ghost{flex:1;background:transparent;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:600;font-size:13px;color:var(--ink);}
+.field-err{color:var(--danger);font-size:12px;min-height:16px;margin:0 0 6px;}
+
+/* --- image option grid --- */
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;}
+@media (max-width:640px){.grid3{grid-template-columns:1fr;}}
+.opt-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:10px;box-shadow:0 1px 3px rgba(122,45,59,0.05);}
+.opt-label{display:inline-block;font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--maroon-dark);background:var(--gold-light);padding:2px 12px;border-radius:999px;margin-bottom:8px;}
+.imgframe{aspect-ratio:1/1;border-radius:var(--r-md);background:var(--cream-2);border:1px solid var(--gold-light);display:flex;align-items:center;justify-content:center;color:#b09a86;overflow:hidden;margin-bottom:10px;position:relative;}
+.imgframe img{width:100%;height:100%;object-fit:cover;}
+.zoom-btn{position:absolute;top:6px;right:6px;width:26px;height:26px;border-radius:50%;background:rgba(42,30,30,0.65);border:none;color:var(--white);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.zoom-btn:hover{background:var(--maroon);}
+.zoom-card{background:var(--cream);border-radius:var(--r-lg);padding:1rem;max-width:92vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;}
+.zoom-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.zoom-ctrl{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--white);font-size:17px;font-weight:700;color:var(--maroon-dark);padding:0;}
+.zoom-ctrl:hover{border-color:var(--gold);}
+.zoom-close{margin-left:10px;background:var(--maroon);color:var(--white);border:none;font-size:14px;}
+.zoom-level{font-size:12.5px;color:#8a7268;width:44px;text-align:center;}
+.zoom-viewport{overflow:auto;max-width:82vw;max-height:70vh;display:flex;align-items:flex-start;justify-content:flex-start;background:var(--cream-2);border-radius:var(--r-md);}
+.zoom-viewport img{max-width:none;transform-origin:top left;transition:transform .12s;}
+
+/* --- dashboard --- */
+.dash-card{margin-bottom:16px;}
+.dash-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;}
+.dash-title{font-family:'Fraunces',serif;font-size:16px;color:var(--maroon-dark);font-weight:600;margin:0;}
+.btn-secondary{background:var(--white);color:var(--maroon-dark);border:1.5px solid var(--maroon);border-radius:999px;padding:8px 18px;font-weight:600;font-size:13px;}
+.btn-secondary:hover{background:var(--maroon-soft);}
+
+.axis-chart{display:flex;justify-content:space-around;align-items:flex-end;height:200px;padding:14px 0 0;border-bottom:1px solid var(--line);margin-bottom:10px;}
+.axis-group{display:flex;flex-direction:column;align-items:center;flex:1;height:100%;justify-content:flex-end;}
+.axis-bars{display:flex;align-items:flex-end;gap:6px;height:160px;}
+.axis-bar-wrap{width:24px;height:100%;display:flex;align-items:flex-end;background:var(--cream-2);border-radius:4px 4px 0 0;position:relative;}
+.axis-bar{width:100%;border-radius:4px 4px 0 0;transition:height .35s ease;}
+.axis-bar-val{position:absolute;top:-16px;left:0;right:0;text-align:center;font-size:9px;color:#8a7268;font-weight:600;}
+.axis-group-label{font-size:11px;color:#8a7268;margin-top:8px;text-align:center;}
+.axis-legend{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;}
+.legend-item{font-size:12px;color:var(--ink);display:flex;align-items:center;gap:6px;}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none;}
+.axis-row{margin-bottom:9px;}
+.axis-label{font-size:11px;color:#8a7268;font-weight:600;margin-bottom:4px;}
+.dots{display:flex;gap:5px;}
+.dot-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);background:var(--cream);font-size:0;padding:0;transition:all .12s;}
+.dot-btn.selected{background:var(--maroon);border-color:var(--maroon);}
+.dot-btn:hover{border-color:var(--gold);}
+
+.pick-card{background:var(--white);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.1rem;margin-bottom:16px;}
+.pick-q{font-family:'Fraunces',serif;font-size:16px;color:var(--maroon-dark);margin:0 0 10px;font-weight:600;}
+.pick-opts{display:flex;gap:10px;}
+.pick-chip{flex:1;border:1.5px solid var(--line);border-radius:var(--r-md);padding:10px;text-align:center;font-weight:700;font-size:14px;background:var(--cream);color:var(--ink);transition:all .12s;}
+.pick-chip.selected{background:var(--maroon);border-color:var(--maroon);color:var(--white);}
+
+.small{font-size:12px;color:#8a7268;}
+.muted{color:#8a7268;font-size:13px;}
+
+/* --- modal --- */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(42,30,30,0.45);align-items:center;justify-content:center;z-index:1000;font-family:'Inter',sans-serif;}
+.modal-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--r-lg);padding:1.25rem;max-width:320px;width:90%;}
+.modal-title{font-family:'Fraunces',serif;font-weight:600;font-size:17px;color:var(--maroon-dark);margin:0 0 6px;}
+.modal-sub{font-size:12.5px;color:#8a7268;margin:0 0 12px;}
+.modal-actions{display:flex;gap:8px;margin-top:4px;}
+
+/* --- admin --- */
+.admin-card{margin-bottom:14px;}
+.admin-card h4{font-family:'Fraunces',serif;color:var(--maroon-dark);margin:0 0 10px;font-size:15px;}
+.opt-block{border-top:1px dashed var(--line);padding-top:10px;margin-top:10px;}
+.opt-block:first-of-type{border-top:none;margin-top:0;padding-top:0;}
+
+/* --- results --- */
+.lead-row{display:flex;align-items:center;gap:12px;background:var(--white);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;margin-bottom:8px;}
+.rank{font-family:'Fraunces',serif;font-weight:600;font-size:18px;color:var(--gold);width:24px;}
+.lead-name{font-weight:700;font-size:14px;flex:1;}
+.lead-bar-wrap{flex:2;background:var(--cream-2);border-radius:999px;height:8px;overflow:hidden;}
+.lead-bar{height:100%;background:linear-gradient(90deg,var(--gold),var(--maroon));border-radius:999px;}
+.lead-stats{font-size:12px;color:#8a7268;width:120px;text-align:right;}
+.leader-badge{background:var(--gold);color:var(--white);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;letter-spacing:.03em;}
+</style>
+
+<script>
+const DEFAULT_PROMPTS = [
+  {id:"p1", title:"Maroon silk saree", desc:"Festive catalog shot with gold zari border"},
+  {id:"p2", title:"Oxidized silver jhumkas", desc:"Close-up jewelry catalog shot"},
+  {id:"p3", title:"Mustard embroidered kurta set", desc:"Diwali sale banner mood"},
+  {id:"p4", title:"Handwoven jute tote bag", desc:"Flatlay catalog shot"},
+  {id:"p5", title:"Silver anklets", desc:"Close-up WhatsApp catalog shot"},
+  {id:"p6", title:"Light blue men's kurta", desc:"Studio catalog shot"},
+  {id:"p7", title:"Brass diya set", desc:"Festive home decor listing"}
+];
+const AXES = ["Prompt relevance","Commercial usability","Indian context fit","Visual quality"];
+let config = null;
+let participant = null;
+let promptIndex = 0;
+let localRatings = {};
+let unlocked = false;
+let pendingTab = null;
+const ADMIN_PASSCODE = "josh2026"; // change this to your own passcode before publishing/sharing the link
+
+function switchTab(name){
+  if((name==='admin' || name==='results') && !unlocked){
+    pendingTab = name;
+    document.getElementById('passcodeErr').textContent = '';
+    document.getElementById('passcodeInput').value = '';
+    document.getElementById('passcodeModal').style.display = 'flex';
+    document.getElementById('passcodeInput').focus();
+    return;
+  }
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active', b.dataset.tab===name));
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+name).classList.add('active');
+  if(name==='admin') renderAdmin();
+  if(name==='results') renderResults();
+}
+document.querySelectorAll('.tab-btn').forEach(b=>b.addEventListener('click', ()=>switchTab(b.dataset.tab)));
+document.getElementById('passcodeCancel').addEventListener('click', ()=>{
+  document.getElementById('passcodeModal').style.display = 'none';
+  pendingTab = null;
+});
+document.getElementById('passcodeSubmit').addEventListener('click', tryUnlock);
+document.getElementById('passcodeInput').addEventListener('keydown', (e)=>{ if(e.key==='Enter') tryUnlock(); });
+function tryUnlock(){
+  const val = document.getElementById('passcodeInput').value;
+  if(val === ADMIN_PASSCODE){
+    unlocked = true;
+    document.getElementById('passcodeModal').style.display = 'none';
+    const t = pendingTab; pendingTab = null;
+    if(t) switchTab(t);
+  } else {
+    document.getElementById('passcodeErr').textContent = 'Incorrect passcode. Try again.';
+  }
+}
+
+let zoomScale = 1;
+function openZoomModal(src){
+  if(!src) return;
+  zoomScale = 1;
+  const img = document.getElementById('zoomImg');
+  img.src = src;
+  img.style.transform = 'scale(1)';
+  document.getElementById('zoomLevel').textContent = '100%';
+  document.getElementById('zoomModal').style.display = 'flex';
+}
+function updateZoom(){
+  document.getElementById('zoomImg').style.transform = `scale(${zoomScale})`;
+  document.getElementById('zoomLevel').textContent = Math.round(zoomScale * 100) + '%';
+}
+document.getElementById('zoomInBtn').addEventListener('click', ()=>{ zoomScale = Math.min(4, zoomScale + 0.5); updateZoom(); });
+document.getElementById('zoomOutBtn').addEventListener('click', ()=>{ zoomScale = Math.max(0.5, zoomScale - 0.5); updateZoom(); });
+document.getElementById('zoomCloseBtn').addEventListener('click', ()=>{ document.getElementById('zoomModal').style.display = 'none'; });
+
+async function loadConfig(){
+  config = { prompts: DEFAULT_PROMPTS.map(p=>({...p, images:{A:'',B:'',C:''}, modelMap:{A:'',B:'',C:''}})) };
+  await Promise.all(config.prompts.map(async (p)=>{
+    try{
+      const r = await window.storage.get('pdata_'+p.id, true);
+      if(r){
+        const saved = JSON.parse(r.value);
+        p.images = saved.images || p.images;
+        p.modelMap = saved.modelMap || p.modelMap;
+      }
+    }catch(e){ /* no saved data yet for this prompt, keep defaults */ }
+  }));
+}
+async function saveConfig(){
+  await Promise.all(config.prompts.map(async (p)=>{
+    try{
+      await window.storage.set('pdata_'+p.id, JSON.stringify({images:p.images, modelMap:p.modelMap}), true);
+    }catch(e){ console.error('save config failed for', p.id, e); }
+  }));
+}
+
+function fileToCompressedDataURL(file, maxDim=900, quality=0.82){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = (e)=>{
+      const img = new Image();
+      img.onload = ()=>{
+        let w = img.width, h = img.height;
+        if(w > maxDim || h > maxDim){
+          if(w > h){ h = Math.round(h * maxDim / w); w = maxDim; } else { w = Math.round(w * maxDim / h); h = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = ()=>reject(new Error('Could not read image'));
+      img.src = e.target.result;
+    };
+    reader.onerror = ()=>reject(new Error('Could not read file'));
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderRail(){
+  const total = config.prompts.length;
+  let html = '<div class="rail">';
+  for(let i=0;i<total;i++){
+    const cls = i<promptIndex ? 'done' : (i===promptIndex ? 'current' : '');
+    html += `<div class="rail-dot ${cls}"></div>`;
+    if(i<total-1) html += '<div class="rail-line"></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderParticipantConsent(){
+  const el = document.getElementById('view-participant');
+  el.innerHTML = `
+    <div class="card consent-card">
+      <p class="meta-title" style="margin-bottom:14px;">Before you start</p>
+      <label class="field">Name</label>
+      <input type="text" id="pname" placeholder="Your name"/>
+      <label class="field">Email</label>
+      <input type="email" id="pemail" placeholder="name@example.com"/>
+      <label class="field">Age</label>
+      <input type="number" id="page" min="1" placeholder="Age"/>
+      <label class="consent-text">
+        <input type="checkbox" id="pconsent"/>
+        <span>I confirm that I am 18 years or older. I voluntarily participated in this evaluation. I consent to my name, email, and responses/ratings being included in this assignment submission for hiring evaluation purposes.</span>
+      </label>
+      <button class="btn-primary" id="startBtn">Start rating</button>
+      <p class="field-err" id="consentErr"></p>
+    </div>`;
+  document.getElementById('startBtn').addEventListener('click', async ()=>{
+    const name = document.getElementById('pname').value.trim();
+    const email = document.getElementById('pemail').value.trim();
+    const age = document.getElementById('page').value;
+    const consent = document.getElementById('pconsent').checked;
+    const err = document.getElementById('consentErr');
+    if(!name || !email || !age || !consent){ err.textContent = 'Please fill every field and check the consent box to continue.'; return; }
+    if(Number(age) < 18){ err.textContent = 'Participants must be 18 or older.'; return; }
+    participant = { name, email, age, consentedAt: new Date().toISOString() };
+    try{ await window.storage.set('participant_'+email, JSON.stringify(participant), true); }catch(e){ console.error(e); }
+    promptIndex = 0;
+    localRatings = {};
+    renderPrompt();
+  });
+}
+
+function imgTag(url, label){
+  if(url){ return `<img src="${url}" alt="${label}"/>`; }
+  return `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>`;
+}
+
+function renderPrompt(){
+  const el = document.getElementById('view-participant');
+  const p = config.prompts[promptIndex];
+  const opts = ['A','B','C'];
+  const saved = localRatings[p.id]; // pre-fill if the participant already answered this one
+
+  el.innerHTML = `
+    ${renderRail()}
+    <div class="meta-row">
+      <span class="meta-count">Prompt ${promptIndex+1} of ${config.prompts.length}</span>
+    </div>
+    <p class="meta-title">${p.title}</p>
+    <p class="meta-desc" style="margin-bottom:14px;">${p.desc}</p>
+    <div class="grid3">
+      ${opts.map(o=>`
+        <div class="opt-card">
+          <span class="opt-label">Option ${o}</span>
+          <div class="imgframe">${imgTag(p.images?p.images[o]:'', o)}${p.images && p.images[o] ? `<button type="button" class="zoom-btn" data-zoomsrc="${o}">🔍</button>` : ''}</div>
+          ${AXES.map((ax,i)=>{
+            const savedVal = saved ? saved.scores[o][ax] : 3;
+            return `
+            <div class="axis-row">
+              <div class="axis-label">${ax}</div>
+              <div class="dots" data-opt="${o}" data-axis="${i}">
+                ${[1,2,3,4,5].map(v=>`<button type="button" class="dot-btn ${v<=savedVal?'selected':''}" data-val="${v}"></button>`).join('')}
+              </div>
+            </div>
+          `;}).join('')}
+        </div>
+      `).join('')}
+    </div>
+    <div class="pick-card">
+      <p class="pick-q">Which would you actually post on your own store?</p>
+      <div class="pick-opts">
+        ${opts.map(o=>`<button type="button" class="pick-chip ${saved && saved.pick===o ? 'selected' : ''}" data-pick="${o}">Option ${o}</button>`).join('')}
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      ${promptIndex > 0 ? `<button class="btn-ghost" id="backBtn" style="flex:0 0 auto;padding:12px 20px;">← Back</button>` : ''}
+      <button class="btn-primary" id="nextBtn" style="flex:1;margin-top:0;">${promptIndex === config.prompts.length-1 ? 'Submit all ratings' : 'Save and continue →'}</button>
+    </div>
+    <p class="field-err" id="pickErr"></p>
+  `;
+
+  el.querySelectorAll('.dots').forEach(group=>{
+    const savedVal = saved ? saved.scores[group.dataset.opt][AXES[group.dataset.axis]] : 3;
+    group.dataset.value = String(savedVal);
+    group.querySelectorAll('.dot-btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        group.querySelectorAll('.dot-btn').forEach(b=>{
+          b.classList.toggle('selected', Number(b.dataset.val) <= Number(btn.dataset.val));
+        });
+        group.dataset.value = btn.dataset.val;
+      });
+    });
+  });
+
+  el.querySelectorAll('.zoom-btn').forEach(btn=>{
+    btn.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      openZoomModal(p.images[btn.dataset.zoomsrc]);
+    });
+  });
+
+  let selectedPick = saved ? saved.pick : null;
+  el.querySelectorAll('.pick-chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      el.querySelectorAll('.pick-chip').forEach(c=>c.classList.remove('selected'));
+      chip.classList.add('selected');
+      selectedPick = chip.dataset.pick;
+    });
+  });
+
+  function captureCurrentAnswers(){
+    const scores = {A:{},B:{},C:{}};
+    el.querySelectorAll('.dots').forEach(group=>{
+      scores[group.dataset.opt][AXES[group.dataset.axis]] = Number(group.dataset.value || 3);
+    });
+    localRatings[p.id] = { scores, pick: selectedPick };
+  }
+
+  if(promptIndex > 0){
+    document.getElementById('backBtn').addEventListener('click', ()=>{
+      captureCurrentAnswers(); // don't lose in-progress answers when going back
+      promptIndex--;
+      renderPrompt();
+    });
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', async ()=>{
+    if(!selectedPick){ document.getElementById('pickErr').textContent = 'Please choose which option you would post.'; return; }
+    captureCurrentAnswers();
+    if(promptIndex === config.prompts.length-1){
+      try{
+        await window.storage.set('ratings_'+participant.email, JSON.stringify({participant, ratings: localRatings, submittedAt: new Date().toISOString()}), true);
+        el.innerHTML = `<div class="card" style="text-align:center;padding:2rem;"><p class="meta-title">Thanks, ${participant.name}.</p><p class="muted">Your ratings for all ${config.prompts.length} prompts have been recorded.</p></div>`;
+      }catch(e){
+        el.innerHTML = `<div class="card"><p style="color:var(--danger);">Something went wrong saving your ratings. Please try again.</p></div>`;
+      }
+    } else {
+      promptIndex++;
+      renderPrompt();
+    }
+  });
+}
+
+async function renderAdmin(){
+  const el = document.getElementById('view-admin');
+  el.innerHTML = `<p class="muted" style="margin-bottom:14px;">For each option (A/B/C), either <strong>upload the image file directly</strong> (recommended — works everywhere, no external hosting needed) or paste a URL from a host that allows embedding (e.g. Imgur). Randomize which model is A/B/C per prompt yourself before saving.</p>`;
+  config.prompts.forEach((p, idx)=>{
+    const card = document.createElement('div');
+    card.className = 'card admin-card';
+    card.innerHTML = `
+      <h4>${idx+1}. ${p.title} <span class="small">— ${p.desc}</span></h4>
+      ${['A','B','C'].map(o=>`
+        <div class="opt-block">
+          <label class="field">Option ${o} — upload image</label>
+          <input type="file" accept="image/*" data-prompt="${p.id}" data-opt="${o}" class="fileInput"/>
+          <p class="small" id="status-${p.id}-${o}" style="margin:4px 0 10px;">${p.images && p.images[o] ? (p.images[o].startsWith('data:') ? 'Image uploaded ✓' : 'Using pasted URL') : 'No image set'}</p>
+          <label class="field">...or paste an image URL instead</label>
+          <input type="url" placeholder="https://i.imgur.com/..." value="${p.images && p.images[o] && !p.images[o].startsWith('data:') ? p.images[o] : ''}" data-prompt="${p.id}" data-opt="${o}" data-field="image" class="cfgInput"/>
+          <label class="field">Option ${o} — real model name</label>
+          <input type="text" placeholder="e.g. GPT Image 1" value="${p.modelMap?p.modelMap[o]||'':''}" data-prompt="${p.id}" data-opt="${o}" data-field="model" class="cfgInput"/>
+        </div>
+      `).join('')}
+    `;
+    el.appendChild(card);
+  });
+
+  el.querySelectorAll('.fileInput').forEach(input=>{
+    input.addEventListener('change', async ()=>{
+      const file = input.files[0];
+      if(!file) return;
+      const promptId = input.dataset.prompt, opt = input.dataset.opt;
+      const status = document.getElementById(`status-${promptId}-${opt}`);
+      status.textContent = 'Compressing and embedding…';
+      try{
+        const dataUrl = await fileToCompressedDataURL(file);
+        const p = config.prompts.find(pp=>pp.id===promptId);
+        if(!p.images) p.images = {A:'',B:'',C:''};
+        p.images[opt] = dataUrl;
+        const sizeKB = Math.round((dataUrl.length * 0.75) / 1024);
+        status.textContent = `Image uploaded ✓ (~${sizeKB} KB, embedded — no external link needed)`;
+        // clear the paired URL field since the upload takes priority
+        const urlInput = el.querySelector(`.cfgInput[data-prompt="${promptId}"][data-opt="${opt}"][data-field="image"]`);
+        if(urlInput) urlInput.value = '';
+      }catch(e){
+        status.textContent = 'Could not process that image — try a different file.';
+      }
+    });
+  });
+
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'btn-primary';
+  saveBtn.textContent = 'Save configuration';
+  saveBtn.addEventListener('click', async ()=>{
+    document.querySelectorAll('.cfgInput').forEach(inp=>{
+      const p = config.prompts.find(pp=>pp.id===inp.dataset.prompt);
+      if(!p) return;
+      if(!p.modelMap) p.modelMap = {A:'',B:'',C:''};
+      if(inp.dataset.field==='image'){
+        // only overwrite with URL if a file wasn't uploaded for this option (data: URI already set)
+        if(inp.value && !(p.images[inp.dataset.opt] || '').startsWith('data:')){
+          p.images[inp.dataset.opt] = inp.value;
+        }
+      } else {
+        p.modelMap[inp.dataset.opt] = inp.value;
+      }
+    });
+    saveBtn.textContent = 'Saving…';
+    await saveConfig();
+    saveBtn.textContent = 'Saved ✓';
+    setTimeout(()=>{ saveBtn.textContent = 'Save configuration'; }, 1500);
+  });
+  el.appendChild(saveBtn);
+}
+
+async function renderResults(){
+  const el = document.getElementById('view-results');
+  el.innerHTML = `<p class="muted">Loading results…</p>`;
+  let keys = [];
+  try{
+    const r = await window.storage.list('ratings_', true);
+    keys = r ? r.keys : [];
+  }catch(e){ keys = []; }
+  if(keys.length===0){
+    el.innerHTML = `<div class="card"><p class="muted">No submissions yet. Results will appear here as participants submit ratings.</p></div>`;
+    return;
+  }
+  const submissions = [];
+  for(const k of keys){
+    try{
+      const r = await window.storage.get(k, true);
+      if(r) submissions.push(JSON.parse(r.value));
+    }catch(e){}
+  }
+  const agg = {};
+  submissions.forEach(sub=>{
+    Object.entries(sub.ratings).forEach(([promptId, data])=>{
+      const p = config.prompts.find(pp=>pp.id===promptId);
+      if(!p || !p.modelMap) return;
+      ['A','B','C'].forEach(o=>{
+        const modelName = p.modelMap[o] || ('Option '+o);
+        if(!agg[modelName]) agg[modelName] = { sums:{}, count:0, wins:0, total:0 };
+        AXES.forEach(ax=>{
+          agg[modelName].sums[ax] = (agg[modelName].sums[ax]||0) + (data.scores[o][ax]||0);
+        });
+        agg[modelName].count++;
+        agg[modelName].total++;
+        if(data.pick === o) agg[modelName].wins++;
+      });
+    });
+  });
+  const rows = Object.entries(agg).map(([name, a])=>{
+    const avgs = AXES.map(ax => a.count ? (a.sums[ax]/a.count) : 0);
+    const overall = avgs.reduce((s,v)=>s+v,0)/AXES.length;
+    const winRate = a.total ? Math.round((a.wins/a.total)*100) : 0;
+    return { name, avgs, overall, winRate };
+  }).sort((x,y)=>y.overall-x.overall);
+
+  el.innerHTML = `
+    <div class="dash-head">
+      <p class="small" style="margin:0;">${submissions.length} participant${submissions.length===1?'':'s'} submitted</p>
+      <button class="btn-secondary" id="csvBtn">Download raw data (CSV) ⬇</button>
+      <button class="btn-secondary" id="consentCsvBtn">Download consent records (CSV) ⬇</button>
+    </div>
+
+    <div class="card dash-card">
+      <p class="dash-title">Leaderboard</p>
+      ${rows.map((r,i)=>`
+        <div class="lead-row">
+          <div class="rank">${i+1}</div>
+          <div class="lead-name">${r.name}${i===0?'<span class="leader-badge">Leader</span>':''}</div>
+          <div class="lead-bar-wrap"><div class="lead-bar" style="width:${(r.overall/5*100).toFixed(0)}%"></div></div>
+          <div class="lead-stats">${r.overall.toFixed(2)}/5 · ${r.winRate}% wins</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card dash-card">
+      <p class="dash-title">Average score by axis</p>
+      <div id="axisChart"></div>
+    </div>
+  `;
+
+  document.getElementById('csvBtn').addEventListener('click', ()=>downloadCSV(submissions));
+  document.getElementById('consentCsvBtn').addEventListener('click', ()=>downloadConsentCSV(submissions));
+  renderAxisChart(rows);
+}
+
+const CHART_PALETTE = ['#7C2D3B', '#B4863A', '#4B6358', '#8a7268', '#5A1F2B', '#C9915A'];
+function renderAxisChart(rows){
+  const container = document.getElementById('axisChart');
+  if(!container || rows.length === 0) return;
+  container.innerHTML = `
+    <div class="axis-chart">
+      ${AXES.map((ax, axIdx) => `
+        <div class="axis-group">
+          <div class="axis-bars">
+            ${rows.map((r, i) => `
+              <div class="axis-bar-wrap">
+                <span class="axis-bar-val">${r.avgs[axIdx].toFixed(1)}</span>
+                <div class="axis-bar" style="height:${Math.max(2, (r.avgs[axIdx] / 5 * 100)).toFixed(0)}%;background:${CHART_PALETTE[i % CHART_PALETTE.length]};"></div>
+              </div>
+            `).join('')}
+          </div>
+          <div class="axis-group-label">${ax}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="axis-legend">
+      ${rows.map((r, i) => `<span class="legend-item"><span class="legend-dot" style="background:${CHART_PALETTE[i % CHART_PALETTE.length]}"></span>${r.name}</span>`).join('')}
+    </div>
+  `;
+}
+
+function downloadConsentCSV(submissions){
+  const headers = ['name','email','age','consent_statement','consented_at'];
+  const consentStatement = 'I confirm that I am 18 years or older. I voluntarily participated in this evaluation. I consent to my name, email, and responses/ratings being included in this assignment submission for hiring evaluation purposes.';
+  const rows = [headers];
+  submissions.forEach(sub=>{
+    const p = sub.participant;
+    rows.push([p.name, p.email, p.age, consentStatement, p.consentedAt]);
+  });
+  const csv = rows.map(r => r.map(v=>{
+    const str = String(v ?? '');
+    return /[",\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
+  }).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'josh_talks_image_eval_consent_records.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function downloadCSV(submissions){
+  const headers = ['participant_name','participant_email','prompt_id','prompt_title','option','model_name','prompt_relevance','commercial_usability','indian_context_fit','visual_quality','was_picked'];
+  const rows = [headers];
+  submissions.forEach(sub=>{
+    Object.entries(sub.ratings).forEach(([promptId, data])=>{
+      const p = config.prompts.find(pp=>pp.id===promptId);
+      const title = p ? p.title : promptId;
+      ['A','B','C'].forEach(o=>{
+        const modelName = (p && p.modelMap && p.modelMap[o]) || ('Option ' + o);
+        const s = data.scores[o] || {};
+        rows.push([
+          sub.participant.name, sub.participant.email, promptId, title, o, modelName,
+          s['Prompt relevance'] ?? '', s['Commercial usability'] ?? '', s['Indian context fit'] ?? '', s['Visual quality'] ?? '',
+          data.pick === o ? 'yes' : 'no',
+        ]);
+      });
+    });
+  });
+  const csv = rows.map(r => r.map(v=>{
+    const str = String(v ?? '');
+    return /[",\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
+  }).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'josh_talks_image_eval_ratings.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+(async function init(){
+  document.getElementById('view-participant').innerHTML = `<div class="card" style="text-align:center;padding:2rem;"><p class="muted">Loading…</p></div>`;
+  await loadConfig();
+  renderParticipantConsent();
+})();
+</script>
+
+</body>
+</html>
