@@ -1,0 +1,253 @@
+participant_name,participant_email,prompt_id,prompt_title,option,model_name,prompt_relevance,commercial_usability,indian_context_fit,visual_quality,was_picked
+Radha,radhadalal108@gmail.com,p1,Maroon silk saree,A,GPT Image 1,5,4,5,5,no
+Radha,radhadalal108@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,5,4,5,5,no
+Radha,radhadalal108@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,5,5,5,4,no
+Radha,radhadalal108@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,5,4,5,3,no
+Radha,radhadalal108@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,4,3,5,3,no
+Radha,radhadalal108@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,5,5,5,3,no
+Radha,radhadalal108@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,5,5,5,5,no
+Radha,radhadalal108@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,5,5,5,3,no
+Radha,radhadalal108@gmail.com,p5,Silver anklets,A,GPT Image 1,4,4,4,4,no
+Radha,radhadalal108@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Radha,radhadalal108@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,5,5,5,3,no
+Radha,radhadalal108@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Radha,radhadalal108@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p7,Brass diya set,A,GPT Image 1,5,5,5,5,yes
+Radha,radhadalal108@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Radha,radhadalal108@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,5,5,5,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p1,Maroon silk saree,A,GPT Image 1,5,3,4,4,no
+Manjit Singh,mj.ahlawat14@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,5,4,5,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,5,5,5,4,no
+Manjit Singh,mj.ahlawat14@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,5,5,5,3,no
+Manjit Singh,mj.ahlawat14@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,4,4,no
+Manjit Singh,mj.ahlawat14@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,4,4,5,4,no
+Manjit Singh,mj.ahlawat14@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,4,5,5,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,4,5,5,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p5,Silver anklets,A,GPT Image 1,2,3,4,3,no
+Manjit Singh,mj.ahlawat14@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,2,2,3,no
+Manjit Singh,mj.ahlawat14@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,5,5,4,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,5,no
+Manjit Singh,mj.ahlawat14@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p7,Brass diya set,A,GPT Image 1,5,5,5,5,yes
+Manjit Singh,mj.ahlawat14@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,2,3,4,no
+Manjit Singh,mj.ahlawat14@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,4,5,4,5,no
+Nigita,nishuchikkara@gmail.com,p1,Maroon silk saree,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,4,4,4,5,yes
+Nigita,nishuchikkara@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,5,4,5,5,yes
+Nigita,nishuchikkara@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,4,4,4,4,yes
+Nigita,nishuchikkara@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,4,4,4,4,yes
+Nigita,nishuchikkara@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,yes
+Nigita,nishuchikkara@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nigita,nishuchikkara@gmail.com,p7,Brass diya set,A,GPT Image 1,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nigita,nishuchikkara@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Vikas Redhu,redhuvikas07@gmail.com,p1,Maroon silk saree,A,GPT Image 1,5,5,5,5,no
+Vikas Redhu,redhuvikas07@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,5,5,5,5,no
+Vikas Redhu,redhuvikas07@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,5,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,5,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p7,Brass diya set,A,GPT Image 1,5,5,5,5,yes
+Vikas Redhu,redhuvikas07@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Vikas Redhu,redhuvikas07@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p1,Maroon silk saree,A,GPT Image 1,4,4,4,4,no
+Hitesh,monudalal8@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,4,4,4,4,yes
+Hitesh,monudalal8@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,4,4,4,4,no
+Hitesh,monudalal8@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Hitesh,monudalal8@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,4,5,5,4,yes
+Hitesh,monudalal8@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,5,3,5,5,yes
+Hitesh,monudalal8@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,4,5,4,4,yes
+Hitesh,monudalal8@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Hitesh,monudalal8@gmail.com,p7,Brass diya set,A,GPT Image 1,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Hitesh,monudalal8@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,5,5,4,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p1,Maroon silk saree,A,GPT Image 1,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,4,5,5,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,5,5,4,yes
+Aayushi,aayushisinhmar36@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,5,5,4,yes
+Aayushi,aayushisinhmar36@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,3,5,5,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p5,Silver anklets,A,GPT Image 1,3,5,5,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,4,5,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p7,Brass diya set,A,GPT Image 1,3,4,5,5,yes
+Aayushi,aayushisinhmar36@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Aayushi,aayushisinhmar36@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p1,Maroon silk saree,A,GPT Image 1,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p7,Brass diya set,A,GPT Image 1,5,5,5,5,yes
+Priya,priyadagar2811@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Priya,priyadagar2811@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Prince,pdalal524@gmail.com,p1,Maroon silk saree,A,GPT Image 1,3,3,3,3,no
+Prince,pdalal524@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,3,3,3,3,yes
+Prince,pdalal524@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Prince,pdalal524@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,yes
+Prince,pdalal524@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Prince,pdalal524@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Prince,pdalal524@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,5,5,5,5,no
+Prince,pdalal524@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Prince,pdalal524@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Prince,pdalal524@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,5,5,4,4,no
+Prince,pdalal524@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,5,4,5,5,yes
+Prince,pdalal524@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,4,4,4,4,no
+Prince,pdalal524@gmail.com,p5,Silver anklets,A,GPT Image 1,5,5,5,5,no
+Prince,pdalal524@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Prince,pdalal524@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,4,5,4,4,no
+Prince,pdalal524@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,5,5,5,5,no
+Prince,pdalal524@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Prince,pdalal524@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Prince,pdalal524@gmail.com,p7,Brass diya set,A,GPT Image 1,5,5,5,5,no
+Prince,pdalal524@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,5,5,5,5,no
+Prince,pdalal524@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p1,Maroon silk saree,A,GPT Image 1,2,4,5,4,no
+Mohit Bhati,mohit.bhati@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,4,4,5,5,no
+Mohit Bhati,mohit.bhati@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,5,5,5,3,no
+Mohit Bhati,mohit.bhati@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,5,5,5,2,no
+Mohit Bhati,mohit.bhati@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,4,5,3,3,no
+Mohit Bhati,mohit.bhati@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,5,4,3,no
+Mohit Bhati,mohit.bhati@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,4,5,5,5,no
+Mohit Bhati,mohit.bhati@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,5,3,5,5,no
+Mohit Bhati,mohit.bhati@gmail.com,p5,Silver anklets,A,GPT Image 1,1,2,3,4,no
+Mohit Bhati,mohit.bhati@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,2,3,3,3,no
+Mohit Bhati,mohit.bhati@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,2,4,3,4,no
+Mohit Bhati,mohit.bhati@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,5,5,5,5,yes
+Mohit Bhati,mohit.bhati@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,4,3,4,4,no
+Mohit Bhati,mohit.bhati@gmail.com,p7,Brass diya set,A,GPT Image 1,4,3,5,5,no
+Mohit Bhati,mohit.bhati@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,4,4,3,5,no
+Mohit Bhati,mohit.bhati@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,5,5,5,5,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,A,GPT Image 1,4,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,3,3,4,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,A,GPT Image 1,4,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,3,3,4,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,A,GPT Image 1,4,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,B,Gemini 2.5 Image Flash,5,3,3,4,yes
+Nidhi,nidhi.imsar033@gmail.com,p1,Maroon silk saree,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,A,GPT Image 1,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p2,Oxidized silver jhumkas,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p3,Mustard embroidered kurta set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,B,Gemini 2.5 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p4,Handwoven jute tote bag,C,Gemini 3.1 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p5,Silver anklets,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p6,Light blue men's kurta,C,Gemini 3.1 Image Flash,3,3,3,3,yes
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,A,GPT Image 1,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,B,Gemini 2.5 Image Flash,3,3,3,3,no
+Nidhi,nidhi.imsar033@gmail.com,p7,Brass diya set,C,Gemini 3.1 Image Flash,3,3,3,3,yes
