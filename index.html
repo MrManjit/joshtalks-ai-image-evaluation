@@ -811,12 +811,23 @@ async function saveToGoogleSheets() {
     ratings: ratingsRows
 };
 
+// const response = await fetch(GOOGLE_SCRIPT_URL, {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json"
+//     },
+//     body: JSON.stringify(payload)
+// });
+
+// if (!response.ok) {
+//     throw new Error(`HTTP ${response.status}`);
+// }
+
 const response = await fetch(GOOGLE_SCRIPT_URL, {
     method: "POST",
-    headers: {
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify(payload)
+    body: new URLSearchParams({
+        data: JSON.stringify(payload)
+    })
 });
 
 if (!response.ok) {
