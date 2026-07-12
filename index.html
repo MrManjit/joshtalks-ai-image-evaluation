@@ -284,16 +284,28 @@ document.getElementById('zoomCloseBtn').addEventListener('click', ()=>{ document
 //   }));
 // }
 
-async function loadConfig(){
+// async function loadConfig(){
 
-  config = {
-    prompts: DEFAULT_PROMPTS.map(p => ({
-      ...p,
-      images:{A:'',B:'',C:''},
-      modelMap:{A:'',B:'',C:''}
-    }))
-  };
+//   config = {
+//     prompts: DEFAULT_PROMPTS.map(p => ({
+//       ...p,
+//       images:{A:'',B:'',C:''},
+//       modelMap:{A:'',B:'',C:''}
+//     }))
+//   };
 
+// }
+async function loadConfig() {
+
+    const response = await fetch(GOOGLE_SCRIPT_URL);
+
+    if (!response.ok) {
+        throw new Error("Unable to load configuration.");
+    }
+
+    const data = await response.json();
+
+    config = data;
 }
 
 async function saveConfig(){
