@@ -263,38 +263,6 @@ document.getElementById('zoomInBtn').addEventListener('click', ()=>{ zoomScale =
 document.getElementById('zoomOutBtn').addEventListener('click', ()=>{ zoomScale = Math.max(0.5, zoomScale - 0.5); updateZoom(); });
 document.getElementById('zoomCloseBtn').addEventListener('click', ()=>{ document.getElementById('zoomModal').style.display = 'none'; });
 
-// async function loadConfig(){
-//   config = { prompts: DEFAULT_PROMPTS.map(p=>({...p, images:{A:'',B:'',C:''}, modelMap:{A:'',B:'',C:''}})) };
-//   await Promise.all(config.prompts.map(async (p)=>{
-//     try{
-//       const r = await window.storage.get('pdata_'+p.id, true);
-//       if(r){
-//         const saved = JSON.parse(r.value);
-//         p.images = saved.images || p.images;
-//         p.modelMap = saved.modelMap || p.modelMap;
-//       }
-//     }catch(e){ /* no saved data yet for this prompt, keep defaults */ }
-//   }));
-// }
-// async function saveConfig(){
-//   await Promise.all(config.prompts.map(async (p)=>{
-//     try{
-//       await window.storage.set('pdata_'+p.id, JSON.stringify({images:p.images, modelMap:p.modelMap}), true);
-//     }catch(e){ console.error('save config failed for', p.id, e); }
-//   }));
-// }
-
-// async function loadConfig(){
-
-//   config = {
-//     prompts: DEFAULT_PROMPTS.map(p => ({
-//       ...p,
-//       images:{A:'',B:'',C:''},
-//       modelMap:{A:'',B:'',C:''}
-//     }))
-//   };
-
-// }
 async function loadConfig() {
 
     const response = await fetch(GOOGLE_SCRIPT_URL);
@@ -374,7 +342,6 @@ function renderParticipantConsent(){
     if(!name || !email || !age || !consent){ err.textContent = 'Please fill every field and check the consent box to continue.'; return; }
     if(Number(age) < 18){ err.textContent = 'Participants must be 18 or older.'; return; }
     participant = { name, email, age, consentedAt: new Date().toISOString() };
-    // try{ await window.storage.set('participant_'+email, JSON.stringify(participant), true); }catch(e){ console.error(e); } no local storage needed
     promptIndex = 0;
     localRatings = {};
     renderPrompt();
@@ -390,7 +357,7 @@ function renderPrompt(){
   const el = document.getElementById('view-participant');
   const p = config.prompts[promptIndex];
   const opts = ['A','B','C'];
-  const saved = localRatings[p.id]; // pre-fill if the participant already answered this one
+  const saved = localRatings[p.id];
 
   el.innerHTML = `
     ${renderRail()}
@@ -469,7 +436,7 @@ function renderPrompt(){
 
   if(promptIndex > 0){
     document.getElementById('backBtn').addEventListener('click', ()=>{
-      captureCurrentAnswers(); // don't lose in-progress answers when going back
+      captureCurrentAnswers();
       promptIndex--;
       renderPrompt();
     });
@@ -480,7 +447,6 @@ function renderPrompt(){
     captureCurrentAnswers();
     if(promptIndex === config.prompts.length-1){
       try{
-        // await window.storage.set('ratings_'+participant.email, JSON.stringify({participant, ratings: localRatings, submittedAt: new Date().toISOString()}), true);
         await saveToGoogleSheets();
         el.innerHTML = `<div class="card" style="text-align:center;padding:2rem;"><p class="meta-title">Thanks, ${participant.name}.</p><p class="muted">Your ratings for all ${config.prompts.length} prompts have been recorded.</p></div>`;
       }catch(e){
@@ -530,7 +496,6 @@ async function renderAdmin(){
         p.images[opt] = dataUrl;
         const sizeKB = Math.round((dataUrl.length * 0.75) / 1024);
         status.textContent = `Image uploaded ✓ (~${sizeKB} KB, embedded — no external link needed)`;
-        // clear the paired URL field since the upload takes priority
         const urlInput = el.querySelector(`.cfgInput[data-prompt="${promptId}"][data-opt="${opt}"][data-field="image"]`);
         if(urlInput) urlInput.value = '';
       }catch(e){
@@ -548,7 +513,6 @@ async function renderAdmin(){
       if(!p) return;
       if(!p.modelMap) p.modelMap = {A:'',B:'',C:''};
       if(inp.dataset.field==='image'){
-        // only overwrite with URL if a file wasn't uploaded for this option (data: URI already set)
         if(inp.value && !(p.images[inp.dataset.opt] || '').startsWith('data:')){
           p.images[inp.dataset.opt] = inp.value;
         }
@@ -563,93 +527,98 @@ async function renderAdmin(){
   });
   el.appendChild(saveBtn);
 }
-async function renderResults(){
 
-  const el = document.getElementById('view-results');
+// ---- Results dashboard: pulls consent + ratings straight from the Google Sheet ----
 
-  el.innerHTML = `
-    <div class="card">
-      <p class="meta-title">Results Dashboard</p>
-      <p class="muted">
-        Google Sheets integration is active.
-        Results dashboard will be connected next.
-      </p>
-    </div>
-  `;
+function axisFieldKey(ax){
+  const map = {
+    "Prompt relevance": "prompt_relevance",
+    "Commercial usability": "commercial_usability",
+    "Indian context fit": "indian_context_fit",
+    "Visual quality": "visual_quality"
+  };
+  return map[ax];
 }
 
-// async function renderResults(){
-//   const el = document.getElementById('view-results');
-//   el.innerHTML = `<p class="muted">Loading results…</p>`;
-//   let keys = [];
-//   try{
-//     const r = await window.storage.list('ratings_', true);
-//     keys = r ? r.keys : [];
-//   }catch(e){ keys = []; }
-//   if(keys.length===0){
-//     el.innerHTML = `<div class="card"><p class="muted">No submissions yet. Results will appear here as participants submit ratings.</p></div>`;
-//     return;
-//   }
-//   const submissions = [];
-//   for(const k of keys){
-//     try{
-//       const r = await window.storage.get(k, true);
-//       if(r) submissions.push(JSON.parse(r.value));
-//     }catch(e){}
-//   }
-//   const agg = {};
-//   submissions.forEach(sub=>{
-//     Object.entries(sub.ratings).forEach(([promptId, data])=>{
-//       const p = config.prompts.find(pp=>pp.id===promptId);
-//       if(!p || !p.modelMap) return;
-//       ['A','B','C'].forEach(o=>{
-//         const modelName = p.modelMap[o] || ('Option '+o);
-//         if(!agg[modelName]) agg[modelName] = { sums:{}, count:0, wins:0, total:0 };
-//         AXES.forEach(ax=>{
-//           agg[modelName].sums[ax] = (agg[modelName].sums[ax]||0) + (data.scores[o][ax]||0);
-//         });
-//         agg[modelName].count++;
-//         agg[modelName].total++;
-//         if(data.pick === o) agg[modelName].wins++;
-//       });
-//     });
-//   });
-//   const rows = Object.entries(agg).map(([name, a])=>{
-//     const avgs = AXES.map(ax => a.count ? (a.sums[ax]/a.count) : 0);
-//     const overall = avgs.reduce((s,v)=>s+v,0)/AXES.length;
-//     const winRate = a.total ? Math.round((a.wins/a.total)*100) : 0;
-//     return { name, avgs, overall, winRate };
-//   }).sort((x,y)=>y.overall-x.overall);
+async function fetchResultsFromSheet(){
+  const response = await fetch(GOOGLE_SCRIPT_URL + '?action=results');
+  if(!response.ok) throw new Error('HTTP ' + response.status);
+  const data = await response.json();
+  if(data.success === false) throw new Error(data.error || 'Unknown error loading results');
+  return data;
+}
 
-//   el.innerHTML = `
-//     <div class="dash-head">
-//       <p class="small" style="margin:0;">${submissions.length} participant${submissions.length===1?'':'s'} submitted</p>
-//       <button class="btn-secondary" id="csvBtn">Download raw data (CSV) ⬇</button>
-//       <button class="btn-secondary" id="consentCsvBtn">Download consent records (CSV) ⬇</button>
-//     </div>
+async function renderResults(){
+  const el = document.getElementById('view-results');
+  el.innerHTML = `<p class="muted">Loading results…</p>`;
 
-//     <div class="card dash-card">
-//       <p class="dash-title">Leaderboard</p>
-//       ${rows.map((r,i)=>`
-//         <div class="lead-row">
-//           <div class="rank">${i+1}</div>
-//           <div class="lead-name">${r.name}${i===0?'<span class="leader-badge">Leader</span>':''}</div>
-//           <div class="lead-bar-wrap"><div class="lead-bar" style="width:${(r.overall/5*100).toFixed(0)}%"></div></div>
-//           <div class="lead-stats">${r.overall.toFixed(2)}/5 · ${r.winRate}% wins</div>
-//         </div>
-//       `).join('')}
-//     </div>
+  let data;
+  try{
+    data = await fetchResultsFromSheet();
+  }catch(e){
+    el.innerHTML = `<div class="card"><p style="color:var(--danger);">Could not load results: ${e.message}</p></div>`;
+    return;
+  }
 
-//     <div class="card dash-card">
-//       <p class="dash-title">Average score by axis</p>
-//       <div id="axisChart"></div>
-//     </div>
-//   `;
+  const consentRecords = data.consent || [];
+  const ratingRows = data.ratings || [];
 
-//   document.getElementById('csvBtn').addEventListener('click', ()=>downloadCSV(submissions));
-//   document.getElementById('consentCsvBtn').addEventListener('click', ()=>downloadConsentCSV(submissions));
-//   renderAxisChart(rows);
-// }
+  if(ratingRows.length === 0){
+    el.innerHTML = `<div class="card"><p class="muted">No submissions yet. Results will appear here as participants submit ratings.</p></div>`;
+    return;
+  }
+
+  const agg = {};
+  ratingRows.forEach(r=>{
+    const modelName = r.model_name || ('Option ' + r.option);
+    if(!agg[modelName]) agg[modelName] = { sums:{}, count:0, wins:0, total:0 };
+    AXES.forEach(ax=>{
+      const key = axisFieldKey(ax);
+      agg[modelName].sums[ax] = (agg[modelName].sums[ax] || 0) + (Number(r[key]) || 0);
+    });
+    agg[modelName].count++;
+    agg[modelName].total++;
+    if(String(r.was_picked).toLowerCase() === 'yes') agg[modelName].wins++;
+  });
+
+  const rows = Object.entries(agg).map(([name, a])=>{
+    const avgs = AXES.map(ax => a.count ? (a.sums[ax] / a.count) : 0);
+    const overall = avgs.reduce((s,v)=>s+v,0) / AXES.length;
+    const winRate = a.total ? Math.round((a.wins / a.total) * 100) : 0;
+    return { name, avgs, overall, winRate };
+  }).sort((x,y)=>y.overall-x.overall);
+
+  const uniqueParticipants = new Set(ratingRows.map(r=>r.participant_email)).size;
+
+  el.innerHTML = `
+    <div class="dash-head">
+      <p class="small" style="margin:0;">${uniqueParticipants} participant${uniqueParticipants===1?'':'s'} submitted</p>
+      <button class="btn-secondary" id="csvBtn">Download raw data (CSV) ⬇</button>
+      <button class="btn-secondary" id="consentCsvBtn">Download consent records (CSV) ⬇</button>
+    </div>
+
+    <div class="card dash-card">
+      <p class="dash-title">Leaderboard</p>
+      ${rows.map((r,i)=>`
+        <div class="lead-row">
+          <div class="rank">${i+1}</div>
+          <div class="lead-name">${r.name}${i===0?'<span class="leader-badge">Leader</span>':''}</div>
+          <div class="lead-bar-wrap"><div class="lead-bar" style="width:${(r.overall/5*100).toFixed(0)}%"></div></div>
+          <div class="lead-stats">${r.overall.toFixed(2)}/5 · ${r.winRate}% wins</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="card dash-card">
+      <p class="dash-title">Average score by axis</p>
+      <div id="axisChart"></div>
+    </div>
+  `;
+
+  document.getElementById('csvBtn').addEventListener('click', ()=>downloadCSV(ratingRows));
+  document.getElementById('consentCsvBtn').addEventListener('click', ()=>downloadConsentCSV(consentRecords));
+  renderAxisChart(rows);
+}
 
 const CHART_PALETTE = ['#7C2D3B', '#B4863A', '#4B6358', '#8a7268', '#5A1F2B', '#C9915A'];
 function renderAxisChart(rows){
@@ -677,60 +646,37 @@ function renderAxisChart(rows){
   `;
 }
 
-function downloadConsentCSV(submissions){
-  const headers = ['name','email','age','consent_statement','consented_at'];
-  const consentStatement = 'I confirm that I am 18 years or older. I voluntarily participated in this evaluation. I consent to my name, email, and responses/ratings being included in this assignment submission for hiring evaluation purposes.';
+function rowsToCSV(headers, dataRows){
   const rows = [headers];
-  submissions.forEach(sub=>{
-    const p = sub.participant;
-    rows.push([p.name, p.email, p.age, consentStatement, p.consentedAt]);
-  });
-  const csv = rows.map(r => r.map(v=>{
+  dataRows.forEach(r => rows.push(headers.map(h => r[h] ?? '')));
+  return rows.map(r => r.map(v=>{
     const str = String(v ?? '');
     return /[",\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
   }).join(',')).join('\n');
+}
+
+function triggerCSVDownload(csv, filename){
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'josh_talks_image_eval_consent_records.csv';
+  a.download = filename;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
 
-function downloadCSV(submissions){
+function downloadConsentCSV(consentRecords){
+  const headers = ['name','email','age','consent_statement','consented_at'];
+  const csv = rowsToCSV(headers, consentRecords);
+  triggerCSVDownload(csv, 'josh_talks_image_eval_consent_records.csv');
+}
+
+function downloadCSV(ratingRows){
   const headers = ['participant_name','participant_email','prompt_id','prompt_title','option','model_name','prompt_relevance','commercial_usability','indian_context_fit','visual_quality','was_picked'];
-  const rows = [headers];
-  submissions.forEach(sub=>{
-    Object.entries(sub.ratings).forEach(([promptId, data])=>{
-      const p = config.prompts.find(pp=>pp.id===promptId);
-      const title = p ? p.title : promptId;
-      ['A','B','C'].forEach(o=>{
-        const modelName = (p && p.modelMap && p.modelMap[o]) || ('Option ' + o);
-        const s = data.scores[o] || {};
-        rows.push([
-          sub.participant.name, sub.participant.email, promptId, title, o, modelName,
-          s['Prompt relevance'] ?? '', s['Commercial usability'] ?? '', s['Indian context fit'] ?? '', s['Visual quality'] ?? '',
-          data.pick === o ? 'yes' : 'no',
-        ]);
-      });
-    });
-  });
-  const csv = rows.map(r => r.map(v=>{
-    const str = String(v ?? '');
-    return /[",\n]/.test(str) ? '"' + str.replace(/"/g, '""') + '"' : str;
-  }).join(',')).join('\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'josh_talks_image_eval_ratings.csv';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  const csv = rowsToCSV(headers, ratingRows);
+  triggerCSVDownload(csv, 'josh_talks_image_eval_ratings.csv');
 }
 
 async function saveToGoogleSheets() {
@@ -775,31 +721,6 @@ async function saveToGoogleSheets() {
     });
   });
 
-//   const payload = {
-//     participant: {
-//       name: participant.name,
-//       email: participant.email,
-//       age: participant.age,
-//       consent_statement: consentStatement,
-//       consented_at: participant.consentedAt
-//     },
-//     ratings: ratingsRows
-//   };
-
-//   const response = await fetch(
-//     GOOGLE_SCRIPT_URL,
-//     {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json"
-//       },
-//       body: JSON.stringify(payload)
-//     }
-//   );
-
-//   return await response.json();
-// }
-
   const payload = {
     participant: {
         name: participant.name,
@@ -809,38 +730,26 @@ async function saveToGoogleSheets() {
         consented_at: participant.consentedAt
     },
     ratings: ratingsRows
-};
+  };
 
-// const response = await fetch(GOOGLE_SCRIPT_URL, {
-//     method: "POST",
-//     headers: {
-//         "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify(payload)
-// });
+  const response = await fetch(GOOGLE_SCRIPT_URL, {
+      method: "POST",
+      body: new URLSearchParams({
+          data: JSON.stringify(payload)
+      })
+  });
 
-// if (!response.ok) {
-//     throw new Error(`HTTP ${response.status}`);
-// }
+  if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+  }
 
-const response = await fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    body: new URLSearchParams({
-        data: JSON.stringify(payload)
-    })
-});
+  const result = await response.json();
 
-if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`);
-}
+  if (!result.success) {
+      throw new Error(result.error || "Google Apps Script returned an error");
+  }
 
-const result = await response.json();
-
-if (!result.success) {
-    throw new Error(result.error || "Google Apps Script returned an error");
-}
-
-return result;
+  return result;
 }
 
 (async function init(){
@@ -971,6 +880,11 @@ button{font-family:'Inter',sans-serif;cursor:pointer;}
 .btn-primary:hover{background:var(--maroon-dark);}
 .btn-ghost{flex:1;background:transparent;border:1px solid var(--line);border-radius:999px;padding:10px 16px;font-weight:600;font-size:13px;color:var(--ink);}
 .field-err{color:var(--danger);font-size:12px;min-height:16px;margin:0 0 6px;}
+
+/* --- prompt callout --- */
+.prompt-box{background:var(--maroon-soft);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 14px;margin-bottom:16px;}
+.prompt-box-label{display:block;font-size:10.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--maroon);margin-bottom:4px;}
+.prompt-box-text{font-size:13.5px;color:var(--ink);line-height:1.5;margin:0;}
 
 /* --- image option grid --- */
 .grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:14px;}
@@ -1221,6 +1135,7 @@ function renderPrompt(){
     </div>
     <p class="meta-title">${p.title}</p>
     <p class="meta-desc" style="margin-bottom:14px;">${p.desc}</p>
+    ${p.prompt ? `<div class="prompt-box"><span class="prompt-box-label">Prompt used</span><p class="prompt-box-text">${p.prompt}</p></div>` : ''}
     <div class="grid3">
       ${opts.map(o=>`
         <div class="opt-card">
