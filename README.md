@@ -17,7 +17,7 @@ This folder contains the full submission for both questions in the assignment br
 | 3. Supporting material — consent proof | `Supporting materials/josh_talks_image_eval_consent_records.csv` |
 | 4. UI / dashboard / leaderboard design | `UI Dashboard Design/UI_Dashboard_Leaderboard-Design.pptx` |
 | 5. Video walkthrough (≤2 min) | **Shared separately — not in this folder** |
-| Final reflection (5 questions) | Included at the end of `Main Document/Main_Document.pdf` |
+| Final reflection (5 questions) | Final Reflection/Final_Reflection.pdf` |
 
 The live rating tool participants used to generate `josh_talks_image_eval_ratings.csv` and the consent CSV is `index.html`.
 
